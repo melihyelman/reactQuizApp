@@ -87,12 +87,14 @@ const data = [
 function Container() {
     const [queue, setQueue] = useState(0);
     const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
+    const [selectionSection, setSelectionSection] = useState(true);
 
     return <div className='container'>
-        {/* {data.slice(queue, queue + 1)?.map(question => <Question key={question.id} setCorrectAnswerCount={setCorrectAnswerCount} setQueue={setQueue} question={question} />)
+        {selectionSection && <Selection setSelectionSection={setSelectionSection} />}
+        {!selectionSection && data.slice(queue, queue + 1)?.map(question => <Question key={question.id} setCorrectAnswerCount={setCorrectAnswerCount} setQueue={setQueue} question={question} />)
         }
-        {data.slice(queue, queue + 1).length === 0 && <Result setQueue={setQueue} correctAnswerCount={correctAnswerCount} />} */}
-        <Selection />
+        {!selectionSection && data.slice(queue, queue + 1).length === 0 && <Result setQueue={setQueue} correctAnswerCount={correctAnswerCount} />}
+
     </div >;
 }
 
