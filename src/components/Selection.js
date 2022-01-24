@@ -5,7 +5,7 @@ import { useQuestion } from '../context/questionContext';
 
 function Selection({ setSelectionSection }) {
     const { categories, currentCategoryId, setCurrentCategoryId } = useCategory();
-    const [difficulty, setDifficulty] = useState('medium');
+    const [difficulty, setDifficulty] = useState('');
     const [amount, setAmount] = useState(5);
     const [loading, setLoading] = useState(false);
     const [counter, setCounter] = useState(3);
@@ -52,8 +52,9 @@ function Selection({ setSelectionSection }) {
                 <div>
                     <h3>Select a difficulty</h3>
                     <details >
-                        <summary>{difficulty}</summary>
+                        <summary>{difficulty === "" ? "Any Difficulty" : difficulty}</summary>
                         <ul >
+                            <li onClick={(e) => { setDifficulty(""); handleCloseDetails(e) }}>Any Difficulty</li>
                             <li onClick={(e) => { setDifficulty("easy"); handleCloseDetails(e) }}>Easy</li>
                             <li onClick={(e) => { setDifficulty("medium"); handleCloseDetails(e) }}>Medium</li>
                             <li onClick={(e) => { setDifficulty("hard"); handleCloseDetails(e) }}>Hard</li>
