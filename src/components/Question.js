@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { shuffleArray } from '../helper';
 
-function Question({ setCorrectAnswerCount, setQueue, question }) {
+function Question({ setCorrectAnswerCount, queue, setQueue, question }) {
     const [answers, setAnswers] = useState([]);
     const [next, setNext] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -71,13 +71,18 @@ function Question({ setCorrectAnswerCount, setQueue, question }) {
         }
     }
 
-    return <div className='question'>
+    const createMarkup = (value) => {
+        return { __html: value };
+    }
 
-        <h4>{question.question}</h4>
+    return <div className='question'>
+        <h6>{queue + 1}. Question</h6>
+        <span className='difficulty'>{question.difficulty}</span>
+        <h4 dangerouslySetInnerHTML={createMarkup(question.question)} />
         <ul ref={ref}>
             {answers && answers.map((answer, id) =>
                 <li className={`${next && answer.correct ? "success" : ""} `} onClick={(e) => handleClick(answer, e)} key={id}>
-                    <span>{helperLetter(id)}</span>{answer.text}<span></span></li>)}
+                    <span>{helperLetter(id)}</span><p dangerouslySetInnerHTML={createMarkup(answer.text)} /><span></span></li>)}
 
         </ul>
         {next && <button onClick={() => { clearClassName(); setClick(false); setCounter(3); setNext(false); setTimeout(() => setQueue(prev => ++prev), 100) }} className='btn'>Next</button>}

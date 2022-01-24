@@ -37,7 +37,19 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    
+    position: relative;
+    .difficulty {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    h6 {
+      font-size: 14px;
+      color: #1D355D;
+    }
     h4 {
       align-self: flex-start;
       margin: 10px 0;

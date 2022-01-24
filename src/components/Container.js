@@ -13,7 +13,7 @@ function Container() {
 
     return <div className='container'>
         {selectionSection && <Selection setSelectionSection={setSelectionSection} />}
-        {!selectionSection && questions.slice(queue, queue + 1)?.map((question, id) => <Question key={id} setCorrectAnswerCount={setCorrectAnswerCount} setQueue={setQueue} question={question} />)
+        {!selectionSection && questions.slice(queue, queue + 1)?.map((question, id) => <Question key={id} setCorrectAnswerCount={setCorrectAnswerCount} queue={queue} setQueue={setQueue} question={question} />)
         }
         {!selectionSection && !questions.slice(queue, queue + 1).length && <Result setCorrectAnswerCount={setCorrectAnswerCount} setSelectionSection={setSelectionSection} setQueue={setQueue} correctAnswerCount={correctAnswerCount} />}
 
