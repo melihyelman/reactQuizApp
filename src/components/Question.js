@@ -1,12 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { shuffleArray } from '../helper';
 
 function Question({ setCorrectAnswerCount, setQueue, question }) {
-    const [answers, setAnswers] = useState(question.answers);
-    const [answerUser, setAnswerUser] = useState('');
+    const [answers, setAnswers] = useState([]);
     const [next, setNext] = useState(false);
     const [loading, setLoading] = useState(false);
     const [click, setClick] = useState(false);
-    const [counter, setCounter] = useState(3)
+    const [counter, setCounter] = useState(3);
+
+    useEffect(() => {
+        const unShuffleAnswers = [
+            {
+                text: question.incorrect_answers[0],
+                correct: false
+            },
+            {
+                text: question.incorrect_answers[1],
+                correct: false
+            },
+            {
+                text: question.incorrect_answers[2],
+                correct: false
+            },
+            { text: question.correct_answer, correct: true }];
+        setAnswers(shuffleArray(unShuffleAnswers));
+    }, [question])
 
     const helperLetter = (id) => {
         if (id === 0) {
@@ -20,18 +38,24 @@ function Question({ setCorrectAnswerCount, setQueue, question }) {
         }
     }
 
+    const ref = useRef();
+
+    const clearClassName = () => {
+        for (let i = 0; i < 4; i++) {
+            ref.current.children[i].className = "";
+        }
+    }
+
     const handleClick = (answer, e) => {
 
         if (!click) {
-            setAnswerUser(answer);
             e.target.className = "pending"
-
             if (answer.correct) {
                 setCorrectAnswerCount(prev => ++prev)
             }
             setLoading(true)
             const counter = setInterval(() => {
-                setCounter(prev => --prev)
+                setCounter(prev => prev > 0 ? --prev : 0)
             }, 1000);
             const timer = setTimeout(() => {
                 if (!answer.correct) {
@@ -41,26 +65,22 @@ function Question({ setCorrectAnswerCount, setQueue, question }) {
                 }
                 setNext(true);
                 setLoading(false)
+                clearInterval(counter);
             }, 3000);
             setClick(true);
-
-            return () => {
-                clearTimeout(timer);
-                clearInterval(counter);
-            }
         }
     }
 
     return <div className='question'>
 
         <h4>{question.question}</h4>
-        <ul>
+        <ul ref={ref}>
             {answers && answers.map((answer, id) =>
-                <li className={`${next && answer.correct ? "success" : ""}`} onClick={(e) => handleClick(answer, e)} key={answer.id}>
+                <li className={`${next && answer.correct ? "success" : ""} `} onClick={(e) => handleClick(answer, e)} key={id}>
                     <span>{helperLetter(id)}</span>{answer.text}<span></span></li>)}
 
         </ul>
-        {next && <button onClick={() => setQueue(prev => ++prev)} className='btn'>Next</button>}
+        {next && <button onClick={() => { clearClassName(); setClick(false); setCounter(3); setNext(false); setTimeout(() => setQueue(prev => ++prev), 100) }} className='btn'>Next</button>}
         <div className={`loading ${loading ? "open" : ""}`} >{counter}</div>
     </div >;
 }

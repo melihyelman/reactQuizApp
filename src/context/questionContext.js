@@ -10,7 +10,6 @@ export const QuestionProvider = ({ children }) => {
         const { data } = await axios.get(`https://opentdb.com/api.php?amount=${amount}&type=multiple&difficulty=${difficulty}&category=${categoryId}`);
         setQuestions(data.results);
     }
-    console.log(questions);
 
     return (
         <QuestionContext.Provider value={{ questions, setQuestions, getQuestions }}>
