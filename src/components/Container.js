@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Selection from './Selection';
 import Question from './Question';
 import Result from './Result';
 
@@ -88,9 +89,10 @@ function Container() {
     const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
 
     return <div className='container'>
-        {data.slice(queue, queue + 1)?.map(question => <Question key={question.id} setCorrectAnswerCount={setCorrectAnswerCount} setQueue={setQueue} question={question} />)
+        {/* {data.slice(queue, queue + 1)?.map(question => <Question key={question.id} setCorrectAnswerCount={setCorrectAnswerCount} setQueue={setQueue} question={question} />)
         }
-        {data.slice(queue, queue + 1).length === 0 && <Result setQueue={setQueue} correctAnswerCount={correctAnswerCount} />}
+        {data.slice(queue, queue + 1).length === 0 && <Result setQueue={setQueue} correctAnswerCount={correctAnswerCount} />} */}
+        <Selection />
     </div >;
 }
 

@@ -6,10 +6,11 @@ const QuestionContext = createContext();
 export const QuestionProvider = ({ children }) => {
     const [questions, setQuestions] = useState([]);
 
-    const getQuestions = async (category, amount, difficulty) => {
-        const { data } = await axios.get(`https://opentdb.com/api.php?amount=10&type=multiple&difficulty=easy&category=22`)
+    const getQuestions = async (categoryId, amount, difficulty) => {
+        const { data } = await axios.get(`https://opentdb.com/api.php?amount=${amount}&type=multiple&difficulty=${difficulty}&category=${categoryId}`);
         setQuestions(data.results);
     }
+    console.log(questions);
 
     return (
         <QuestionContext.Provider value={{ questions, setQuestions, getQuestions }}>

@@ -4,14 +4,16 @@ import { createContext, useState, useContext, useEffect } from "react";
 const CategoryContext = createContext();
 
 export const CategoryProvider = ({ children }) => {
-    const [category, setCategory] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [currentCategoryId, setCurrentCategoryId] = useState(9);
 
     useEffect(() => {
-        axios.get("https://opentdb.com/api_category.php").then(res => setCategory(res.data.trivia_categories));
+        axios.get("https://opentdb.com/api_category.php").then(res => setCategories(res.data.trivia_categories));
     }, []);
 
+
     return (
-        <CategoryContext.Provider value={{ category, setCategory }}>
+        <CategoryContext.Provider value={{ currentCategoryId, setCurrentCategoryId, categories, setCategories }}>
             {children}
         </CategoryContext.Provider>
     );
